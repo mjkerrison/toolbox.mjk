@@ -21,26 +21,8 @@ check_productivity <- function(){
 
 
 
-is_dttm <- function(tibble_col){
-
-  all(class(tibble_col) == c("POSIXct", "POSIXt"))
-
-}
 
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-# Thanks https://stackoverflow.com/questions/37610056
-`%!=na%` <- function(e1, e2) (
-  e1 != e2 |
-    (is.na(e1) & !is.na(e2)) |
-    (is.na(e2) & !is.na(e1))
-) & !(is.na(e1) & is.na(e2))
-
-`%==na%` <- function(e1, e2){!`%!=na%`(e1, e2)}
-
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 write2clip <- function(input_tbl, na_overwrite = "NA",
                        headers = T, clip_mem = 2^15,
@@ -84,43 +66,26 @@ read_clippy <- function(header_or_not = T,
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# This one a small utility to get column # from excel reference (Z, AA, AB...)
-# Thanks Edo @ https://stackoverflow.com/questions/34537243
-letters2numbers <- function(x){
-
-  # letters encoding
-  encoding <- setNames(seq_along(LETTERS), LETTERS)
-
-  # uppercase
-  x <- toupper(x)
-
-  # convert string to a list of vectors of single letters
-  x <- strsplit(x, split = "")
-
-  # convert each letter to the corresponding number
-  # calculate the column number
-  # return a numeric vector
-  sapply(x, function(xs) sum(encoding[xs] * 26^((length(xs)-1):0)))
-
-}
 
 
-numbers2letters <- function(x){
-
-  digits <- c()
-
-  while(x){
-
-    y <- ifelse(x %% 26 == 0, 26, x %% 26)
-
-    digits <- c(digits, LETTERS[y])
-
-    x <- (x - y) / 26
-
-  }
-
-  return(paste(rev(digits), collapse = ""))
-
+# This one is a bit wonky, but is also something I do all the time.
+# TODO: punch this up.
+add_numeric_totals_row <- function(grouped_table,
+                                   add_total_row_to){
+  
+  bind_rows(
+    
+    ungroup(grouped_table),
+    
+    grouped_table |>
+      
+      summarise(
+        {{ add_total_row_to }} := "Total",
+        across(where(is.numeric), ~sum(., na.rm = TRUE))
+      )
+    
+  )
+  
 }
 
 
@@ -140,29 +105,6 @@ tibblify_list <- function(to_tibblify){
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-get_EOFY <- function(date_in){
-
-  lubridate::dmy(
-    paste0(
-      "30/6/",
-      floor(lubridate::quarter(date_in, with_year = T, fiscal_start = 7))
-    )
-  )
-
-}
-
-
-get_SOFY <- function(date_in){
-
-  lubridate::dmy(
-    paste0(
-      "1/7/",
-      floor(lubridate::quarter(date_in, with_year = T, fiscal_start = 7)) - 1
-    )
-  )
-
-}
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -231,6 +173,7 @@ unfill <- function(x){
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # Thanks Richie Cotton: https://stackoverflow.com/questions/7145826/
+# NB: this is redundant thanks to the {scales} package.
 percent <- function(x, digits = 2, format = "f", ...) {
   paste0(formatC(100 * x, format = format, digits = digits, ...), "%")
 }
@@ -425,14 +368,6 @@ import <- function(x, repo = Sys.getenv("monorepo"), ...){
 #
 # }
 
-
-# Excel date format ------------------------------------------------------------
-
-# https://stackoverflow.com/questions/43230470
-# Key fact: Excel date origin is 30/12/1899. Thanks Andrew Breza.
-# Refer originXL() above.
-
-originXL <- function(){lubridate::dmy("30/12/1899")}
 
 
 # Encoding ---------------------------------------------------------------------

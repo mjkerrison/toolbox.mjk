@@ -1,4 +1,5 @@
 
+# Compound inequalities ========================================================
 
 #' Infix operators for compound inequalities
 #'
@@ -82,3 +83,39 @@ compound.inequality <- function(lhs, rhs, comparison) {
 '%>=%' <- function(lhs, rhs) {
   return(compound.inequality(lhs, rhs, '>='))
 }
+
+
+# Equality with NAs ============================================================
+
+
+#' Inequality, treating NAs as a Thing
+#'
+#' @description Courtesy of https://stackoverflow.com/questions/37610056.
+#'
+#' @param e1 
+#' @param e2 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+`%!=na%` <- function(e1, e2){
+  (
+    e1 != e2 |
+      (is.na(e1) & !is.na(e2)) |
+      (is.na(e2) & !is.na(e1))
+  ) & !(is.na(e1) & is.na(e2))
+}
+
+
+#' Equality, treating NAs as a Thing
+#'
+#' @param e1 
+#' @param e2 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+`%==na%` <- function(e1, e2){!`%!=na%`(e1, e2)}
+
