@@ -286,8 +286,15 @@ autowrangle_data_from_config <- function(one_unwrangled_table,
           {{ coalesce_target_i }} := coalesce_across(any_of(things_to_coalesce))
         ) |>
 
-        select(-any_of(things_to_coalesce))
-
+        select(-any_of(
+          # Note we need to take a setdiff() here so we don't accidentally nuke
+          # the *result* of the coalescing, in the case where there's a raw
+          # column of the same name as the target column
+          setdiff(
+            things_to_coalesce, coalesce_target_i)
+        )
+        )
+      
     },
 
     # Starting with
