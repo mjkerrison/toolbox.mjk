@@ -11,6 +11,8 @@
 #' @param named_list_of_tables
 #' @param force_clean_names
 #'
+#' @importFrom janitor make_clean_names
+#' @importFrom assertthat assert_that
 #' @return
 #' @export
 #'
@@ -18,7 +20,7 @@
 generate_variable_bus_matrix <- function(named_list_of_tables,
                                          force_clean_names = TRUE){
 
-  assert_that(
+  assertthat::assert_that(
     !is.null(names(named_list_of_tables)),
     msg = "List of tables should be named to identify which variables come from where!"
   )
