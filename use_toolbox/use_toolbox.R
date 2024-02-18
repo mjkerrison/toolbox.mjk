@@ -12,9 +12,10 @@
 #' @export
 #'
 #' @examples
-download_from_github <- function(scripts){
+download_from_github <- function(scripts,
+                                 branch = "main"){
   download.file(
-    url = glue("https://raw.githubusercontent.com/mjkerrison/toolbox.mjk/main/{scripts}"),
+    url = glue("https://raw.githubusercontent.com/mjkerrison/toolbox.mjk/{branch}/{scripts}"),
     destfile = glue("R/{basename(scripts)}")
   )
 }
