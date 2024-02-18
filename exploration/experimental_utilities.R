@@ -458,3 +458,28 @@ push_snippets <- function(){
 }
 
 
+# Hashing ======================================================================
+
+#' Look at what different hash algos result in
+#'
+#' @param input Thing to hash
+#'
+#' @return A list of named hash results so you can pick an algo to use.
+#' @export
+#' 
+#' @importFrom digest digest
+#'
+#' @examples
+check_hash_algo_results <- function(input){
+  
+  digest_formals <- formals(fun = digest::digest)$algo |>
+    as.list() |> 
+    tail(-1)
+  
+  digest_formals |>   
+  
+    set_names() |> 
+    
+    map(\(x) digest::digest(input, algo = x))
+  
+}
