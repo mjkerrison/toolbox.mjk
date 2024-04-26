@@ -1,0 +1,45 @@
+📁 analysis:
+    📄 readme.txt:
+        Substantive bits of analysis that needs to be kept working.
+
+📁 data:
+    📄 readme.txt:
+        Holds processed data.
+
+📁 explore:
+    📄 readme.txt:
+        Random bits of exploratory analysis that didn't go anywhere and isn't guaranteed to keep working.
+
+📁 output:
+    📄 readme.txt:
+        Output such as PDFs and PNGs and HTML files. These are ignored by git so this folder will be empty in a fresh clone.
+
+📁 processing:
+    📄 readme.txt:
+        Processing of the original data into tidy form, queries data from DAWN etc.
+
+📁 raw-data:
+    📄 readme.txt:
+        Original raw data from the client or elsewhere.
+
+📁 R:
+    📄 readme.txt:
+        Holds R functions and portable scripts.
+
+📄 .gitignore: |
+    .Rproj.user
+    .Rhistory
+    .RData
+    .Ruserdata
+    
+    # Raw data and outputs
+    raw-data/*
+    output/*
+    
+    # Other outputs
+    
+    # Preserve 'readme' files
+    !*/readme.txt
+    
+    # Keep these files:
+    # !raw-data/...
