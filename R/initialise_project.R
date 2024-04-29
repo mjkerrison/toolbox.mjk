@@ -130,11 +130,11 @@ recurse_over_project_structure_yaml <- function(current_dir,
           
           writeLines(theoretical_path)
         
-        message(glue::glue("✅ Created file:       {current_dir}"))
+        message(glue::glue("✅ Created file:       {theoretical_path}"))
         
       } else {
         
-        message(glue::glue("⏩ Exists (skipping):  {current_dir}"))
+        message(glue::glue("⏩ Exists (skipping):  {theoretical_path}"))
 
       }
       
