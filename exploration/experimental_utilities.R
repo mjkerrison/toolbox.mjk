@@ -468,6 +468,8 @@ push_snippets <- function(){
 #' @export
 #' 
 #' @importFrom digest digest
+#' @importFrom purrr map
+#' @importFrom purrr set_names
 #'
 #' @examples
 check_hash_algo_results <- function(input){
@@ -478,8 +480,8 @@ check_hash_algo_results <- function(input){
   
   digest_formals |>   
   
-    set_names() |> 
+    purrr::set_names() |> 
     
-    map(\(x) digest::digest(input, algo = x))
+    purrr::map(\(x) digest::digest(input, algo = x))
   
 }
