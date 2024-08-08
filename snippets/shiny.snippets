@@ -1,0 +1,26 @@
+
+snippet ui_module
+	___UI <- function(id, ...){
+		ns <- NS(id)
+		tagList(
+		
+			# Components go here
+		
+		)
+	}
+
+snippet server_module
+	___Server <- function(id, ...){
+		moduleServer(
+			id,
+			function(input, output, session){
+				
+				# Server functionality goes here
+				
+			}
+		)
+	}
+
+# Never mind - this is basically covered off by the shinymod snippet by default!
+# 	Which - very cool! - automatically puts the cursor on the 'name' for both
+# 	the UI and server components. Very ergonomic!
