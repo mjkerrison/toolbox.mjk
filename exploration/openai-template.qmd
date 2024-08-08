@@ -1,0 +1,83 @@
+---
+title: "Untitled"
+format: html
+editor: visual
+---
+
+# Quick Access to Better Models
+
+## Initial query
+
+A template for a chat completion is provided below:
+
+```{r system_prompt}
+
+system_prompt <- "You are a helpful assistant, working to support advanced users with tech issues with few or no good search engine results."
+
+```
+
+
+```{r setup_gpt}
+#| results: asis
+
+Sys.setenv(OPENAI_API_KEY = keyring::key_get("openai", "api"))
+
+library(openai)
+
+log_so_far <- list(list(role = "system", content = system_prompt))
+
+# This is a bit daft - you could obviously do it better, but this is quick.
+add_log <- function(content_i){
+  
+  assertthat::assert_that(exists("log_so_far"), msg = "No logs!")
+  
+  next_log_dict <- c("system" = "user",
+                     "user" = "assistant",
+                     "assistant" = "user")
+  
+  last_log_type <- purrr::pluck(log_so_far, -1, "role")
+  
+  next_log_type <- next_log_dict[[last_log_type]]
+  
+  log_so_far <<- c(
+    log_so_far,
+    list(
+      list(role = next_log_type, content = content_i)
+    )
+  )
+  
+  return(log_so_far)
+  
+}
+
+
+get_assistant_response <- function(user_query){
+  
+  add_log(user_query)
+  
+  
+  result <- openai::create_chat_completion(
+    
+    model = "gpt-4-turbo", 
+    
+    messages = log_so_far
+    
+  )
+  
+  invisible(add_log(result$choices$message.content))
+  
+}
+
+```
+
+
+```{r ongoing_chat}
+#| results: asis
+
+user_query <- "I have a password manager installed on my Android phone. On initially loading a webpage, I correctly get prompted to select a saved password from the password manager (my system settings appear to be correct). However, when swiping away from the page or after an autofill, I no longer get the dropdown or prompt at the top of the on-screen keyboard, meaning I cannot select the autofill again or select a different one. Is there a way to force the prompt to show again?"
+
+get_assistant_response(user_query)
+
+cat(purrr::pluck(log_so_far, -1, "content"))
+
+```
