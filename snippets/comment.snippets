@@ -1,0 +1,2 @@
+snippet comment
+	`r paste("#", stringi::stri_replace_all_fixed(clipr::read_clip(), c("‘", "’", "“", "”", "…"), c("'", "'", "\"", "\"", "..."), vectorize_all = FALSE), "\n")`
