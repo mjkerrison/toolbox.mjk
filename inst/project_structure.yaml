@@ -1,0 +1,94 @@
+📁.azuredevops:
+    📄pull_request_template.md: |
+        
+        ## Before submitting the pull request:
+
+        -   [ ] I've followed the Nous style guide with my code
+        -   [ ] I've documented my work appropriately (within and/or outside of the code)
+        -   [ ] I've written appropriate assertions and/or tests
+        
+        ## As part of this pull request, I...:
+        
+        *Use this section to clearly identify what you've done. Focus on what the goal of this code is, rather than just what files you changed.*
+        
+        - Updated ABC
+        
+        ## When reviewing this pull request, please...
+        
+        *Use this section to clearly lay out what your reviewer should focus on - not just the files, but the logic and the intent.*
+        
+        - Check ABC
+
+📁analysis:
+    📄readme.txt:
+        Substantive bits of analysis that needs to be kept working.
+
+📁data:
+    📄readme.txt:
+        Holds processed data.
+
+📁explore:
+    📄readme.txt:
+        Random bits of exploratory analysis that didn't go anywhere and are not guaranteed to keep working.
+
+📁output:
+    📄readme.txt:
+        Output such as PDFs and PNGs and HTML files. These are ignored by git so this folder will be empty in a fresh clone.
+
+📁processing:
+    📄readme.txt:
+        Processing of the original data into tidy form, queries data from DAWN etc.
+
+📁raw-data:
+    📄readme.txt:
+        Original raw data from the client or elsewhere.
+
+📁R:
+    📄readme.txt:
+        Holds R functions and portable scripts.
+
+📄.gitignore: |
+    .Rproj.user
+    .Rhistory
+    .RData
+    .Ruserdata
+    
+    # Raw data and outputs
+    raw-data/*
+    output/*
+    
+    # Other outputs
+    
+    # Preserve 'readme' files
+    !*/readme.txt
+    
+    # When working with {targets}, by default ignore the folder it creates
+    # (Avoids relying on {targets}-created .gitignore in order to avoid 
+    # excessive updates to meta/meta, while also avoiding tracking ../objects)
+    _targets
+    run.sh
+    
+    # Keep these files:
+    # !raw-data/...
+
+📄README.md: |
+    
+    # $PROJECT_SLUG $PROJECT_NAME
+    
+    This is the README file for $PROJECT_SLUG $PROJECT_NAME.
+    
+    Any questions, contact $PROJECT_CONTACT
+
+📄setup.R: |
+    # Project setup goes here
+    library(tidyverse)
+    library(glue)
+    
+
+📄driver.R: |
+    
+    source("setup.R")
+    
+    # Your code goes here
+    
+    source(...)
