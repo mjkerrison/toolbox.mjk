@@ -71,6 +71,13 @@
     # Keep these files:
     # !raw-data/...
 
+📄.Rprofile: |
+    # For using {renv}:
+    # options(pkgType = "win.binary")
+    # options(repos = c("P3M" = "https://packagemanager.posit.co/cran/latest",
+    #                   "CRAN" = "https://cloud.r-project.org"))
+    # source("renv/activate.R")
+
 📄README.md: |
     
     # $PROJECT_SLUG $PROJECT_NAME
