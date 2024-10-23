@@ -1,0 +1,28 @@
+
+# @start
+# Set up some plotting code boilerplate. 
+# Refer toolbox.mjk > officer_field_promotion.R for more.
+snippet plot_skeleton
+	plot_{$1:thing} <- function({$2:inputs}){
+	
+		# Plot ---------------------------------------------------------------------
+		
+		# Your plotting code goes here
+		
+		
+		# Return -------------------------------------------------------------------
+		
+		# Before returning: consider - are you manipulating the data too much? Is
+		# there anything in here that should be pushed further upstream...?
+		final_result <- list(
+			viz = ...,
+			data = ...,
+			uuid = "`r digest::digest(Sys.time(), algo = "crc32")`"
+		)
+		
+		class(final_result) <- c("viz_object", "list")
+		
+		return(final_result)
+		
+	}
+# @end

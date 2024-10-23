@@ -1,0 +1,20 @@
+# @start
+# Insert an 8-chr hash of the current timestamp.
+# Timestamp for simplicity & minimising collisions
+# Hash for brevity & abstraction (esp. for embedding elsewhere)
+snippet hashtime
+	"`r digest::digest(Sys.time(), algo = "crc32")`"
+# @end
+
+# @start
+# Pipe a table into this to dump to clipboard. Defaults to setting a biiiig 
+# memory limit for said clipboard to support most tables.
+snippet write2clip
+	write.table("clipboard-200000", sep = "\t", row.names = FALSE)
+# @end
+
+# @start
+# Takes a Windows-style path from clipboard and converts backslash to forward
+snippet pp
+	"`r gsub('"', "", gsub("\\\\", "/", readClipboard()))`"
+# @end

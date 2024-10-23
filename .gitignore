@@ -56,3 +56,6 @@ README.html
 
 temp/*
 temp/
+
+*.pptx
+!inst/Blank PPTX.pptx
