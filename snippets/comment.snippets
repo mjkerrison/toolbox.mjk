@@ -1,2 +1,5 @@
+# This takes something from the clipboard and sanitises it, removing characters
+# that cause headaches with the file encoding. Useful for copying text in an
+# email into a comment.
 snippet comment
 	`r paste("#", stringi::stri_replace_all_fixed(clipr::read_clip(), c("‘", "’", "“", "”", "…"), c("'", "'", "\"", "\"", "..."), vectorize_all = FALSE), "\n")`
