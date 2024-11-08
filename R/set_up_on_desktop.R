@@ -203,18 +203,32 @@ get_set_up_X <- function(.target_R_version){
   # https://docs.posit.co/ide/server-pro/reference/session_user_settings.html
   
   # IMPORTANT! For reproducibility:
-  rstudioapi::writeRStudioPreference("save_workspace", "never")
-  rstudioapi::writeRStudioPreference("load_workspace", FALSE)
+  # rstudioapi::writeRStudioPreference("save_workspace", "never")
+  # rstudioapi::writeRStudioPreference("load_workspace", FALSE)
+  # 
+  # # For more style / formatting consistency across users:
+  # rstudioapi::writeRStudioPreference("insert_native_pipe_operator", TRUE)
+  # rstudioapi::writeRStudioPreference("strip_trailing_whitespace", TRUE)
+  # rstudioapi::writeRStudioPreference("auto_append_newline", TRUE)
+  # 
+  # # For UX:
+  # rstudioapi::writeRStudioPreference("scroll_past_end_of_document", TRUE)
+  # rstudioapi::writeRStudioPreference("reduced_motion", TRUE)
+  # rstudioapi::writeRStudioPreference("git_diff_ignore_whitespace", TRUE)
   
-  # For more style / formatting consistency across users:
-  rstudioapi::writeRStudioPreference("insert_native_pipe_operator", TRUE)
-  rstudioapi::writeRStudioPreference("strip_trailing_whitespace", TRUE)
-  rstudioapi::writeRStudioPreference("auto_append_newline", TRUE)
+  # TODO: convert to {usethis} for nicety
+  usethis::use_rstudio_preferences(
+    "save_workspace" = "never",
+    "load_workspace" = FALSE,
+    "graphics_backend" = "ragg" # This one is a doozy...^1
+  )
   
-  # For UX:
-  rstudioapi::writeRStudioPreference("scroll_past_end_of_document", TRUE)
-  rstudioapi::writeRStudioPreference("reduced_motion", TRUE)
-  rstudioapi::writeRStudioPreference("git_diff_ignore_whitespace", TRUE)
+  # 1. 
+  # https://ragg.r-lib.org/
+  # https://github.com/r-lib/systemfonts
+  # https://www.cararthompson.com/posts/2024-01-12-using-fonts-in-r-for-dataviz/2024-01-12_getting-fonts-to-work
+  # Graphics devices are complicated...
+                                   
   
   # TODO: look into the "panes" preference???
   #   One could probably use something similar to this to replicate *one's own*
